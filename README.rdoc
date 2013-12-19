@@ -1,0 +1,88 @@
+= Thamble
+
+Thamble exposes a single method, table, for easily creating HTML
+tables from enumerable objects.
+
+= Installation
+
+  sudo gem install thamble
+
+= Source Code
+
+Source code is available on GitHub at https://github.com/jeremyevans/thamble
+
+= Examples
+
+The default behavior just expects an enumerable of arrays (such as an array of
+arrays), and returns a string containing the HTML TABLE output:
+
+  puts Thamble.table([[1, 2]])
+
+    <table>
+    <tbody>
+    <tr>
+    <td>1</td>
+    <td>2</td>
+    </tr>
+    </tbody>
+    </table>
+
+If a block is passed to the method, all items in the enumerable are yielded to
+the block, and the block should return an array with the data to use in the table:
+
+  puts Thamble.table([{:a=>1, :b=>2}, {:a=>3, :b=>4}]){|l| [l[:b], l[:a] + 10]}
+
+    <table>
+    <tbody>
+    <tr>
+    <td>2</td>
+    <td>11</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>13</td>
+    </tr>
+    </tbody>
+    </table>
+
+You can use the :headers option to set custom headers:
+
+  puts Thamble.table([[1, 2], [3, 4]], :headers=>['A', 'B'])
+
+    <table>
+    <thead>
+    <tr>
+    <th>A</th>
+    <th>B</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>1</td>
+    <td>2</td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>4</td>
+    </tr>
+    </tbody>
+    </table>
+
+Other options supported are:
+
+:caption :: A caption for the table
+:table :: HTML attribute hash for the table itself
+:td :: HTML attribute hash for the table data cells, can be a proc called
+       with the data value, row position, and row that returns a hash
+:th :: HTML attribute hash for the table header cells, can be a proc called
+       with the header that returns a hash
+:tr :: HTML attribute hash for the table rows, can be a proc called with
+       the row that returns a hash
+
+= License
+
+MIT
+
+= Author
+
+Jeremy Evans <code@jeremyevans.net>
