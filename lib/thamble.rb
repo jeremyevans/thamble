@@ -23,6 +23,7 @@ module Thamble
   #        with the header that returns a hash
   # :tr :: HTML attribute hash for the table rows, can be a proc called with
   #        the row that returns a hash
+  # :widths :: An array of widths to use for each column
   def table(enum, opts=OPTS)
     t = Table.new(opts)
     enum.each do |row|
@@ -62,12 +63,22 @@ module Thamble
       t = tag('table', empty, @opts[:table])
       s = t.open
       s << nl
+
       if caption = @opts[:caption]
         s << tag(:caption, caption).to_s
       end
+
+      if widths = @opts[:widths]
+        s << "<colgroup>\n"
+        widths.each do |w|
+          s << "<col width=\"#{w.to_i}\" />\n"
+        end
+        s << "</colgroup>\n"
+      end
+
       if headers = @opts[:headers]
-        headers = headers.split(',') if headers.is_a?(String)
         s << "<thead>\n"
+        headers = headers.split(',') if headers.is_a?(String)
         trh = tag(tr, empty, handle_proc(tr_attr, headers))
         s << trh.open
         s << nl
@@ -77,6 +88,7 @@ module Thamble
         s << trh.close
         s << "</thead>\n"
       end
+
       s << "<tbody>\n"
       @rows.each do |row|
         trh = tag(tr, empty, handle_proc(tr_attr, row))

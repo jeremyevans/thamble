@@ -29,6 +29,10 @@ describe "Thamble.table" do
     table([[1, 2]], :headers=>'a,b').should == '<table><thead><tr><th>a</th><th>b</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr></tbody></table>'
   end
 
+  it 'should support :widths option for setting width for each column' do
+    table([[1, 2]], :widths=>[3,4]).should == '<table><colgroup><col width="3" /><col width="4" /></colgroup><tbody><tr><td>1</td><td>2</td></tr></tbody></table>'
+  end
+
   it 'should yield each object in enumerable to block to return data row to use' do
     table([[1, 2]]){|l, t| l.map{|i| i*2}}.should == '<table><tbody><tr><td>2</td><td>4</td></tr></tbody></table>'
   end

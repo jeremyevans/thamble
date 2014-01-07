@@ -78,6 +78,7 @@ Other options supported are:
        with the header that returns a hash
 :tr :: HTML attribute hash for the table rows, can be a proc called with
        the row that returns a hash
+:widths :: Array of widths for each column
 
 = License
 
