@@ -1,6 +1,17 @@
 require 'rubygems'
 require File.join(File.dirname(File.expand_path(__FILE__)), '../lib/thamble')
 
+if defined?(RSpec)
+  require 'rspec/version'
+  if RSpec::Version::STRING >= '2.11.0'
+    RSpec.configure do |config|
+      config.expect_with :rspec do |c|
+        c.syntax = :should
+      end
+    end
+  end
+end
+
 describe "Thamble.table" do
   def table(*a, &block)
     Thamble.table(*a, &block).gsub(/\s+\n/m, '').gsub("\n", '')
