@@ -115,7 +115,7 @@ module Thamble
 
     # Return a Raw string, which won't be HTML escaped.
     def raw(s)
-      Raw.new(s)
+      RawString.new(s)
     end
 
     private
@@ -132,9 +132,15 @@ module Thamble
     end
   end
 
+  # Module that can be included into other String subclasses so
+  # that the instances are not HTML escaped
+  module Raw
+  end
+
   # Simple subclass of string, where instances are not HTML
   # escaped.
-  class Raw < String
+  class RawString < String
+    include Raw
   end
 
   # Tags represent an individual HTML tag.
