@@ -13,7 +13,8 @@ module Thamble
   #
   # Options:
   #
-  # :headers :: The headers to use for the table
+  # :headers :: The headers to use for the table, as an array of strings or a
+  #             single string using commas as the separtor.
   # :caption :: A caption for the table
   # :table :: HTML attribute hash for the table itself
   # :td :: HTML attribute hash for the table data cells, can be a proc called
@@ -65,6 +66,7 @@ module Thamble
         s << tag(:caption, caption).to_s
       end
       if headers = @opts[:headers]
+        headers = headers.split(',') if headers.is_a?(String)
         s << "<thead>\n"
         trh = tag(tr, empty, handle_proc(tr_attr, headers))
         s << trh.open
