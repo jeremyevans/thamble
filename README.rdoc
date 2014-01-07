@@ -80,6 +80,17 @@ Other options supported are:
        the row that returns a hash
 :widths :: Array of widths for each column
 
+= Rails Support
+
+Thamble comes with basic rails support via:
+
+  require 'thamble/rails'
+  ApplicationController.helper Thamble::RailsHelper
+
+This allows you to use the following style in your templates:
+
+  <%= thamble([[1, 2], [3, 4]], :headers=>['A', 'B']) %>
+
 = License
 
 MIT
