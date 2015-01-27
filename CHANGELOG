@@ -1,3 +1,7 @@
+=== 1.0.1 (2015-01-27)
+
+* Fix homepage in gemspec (jeremyevans) (#1)
+
 === 1.0.0 (2014-01-07)
 
 * Initial Public Release
