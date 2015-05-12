@@ -1,6 +1,5 @@
 require "rake"
 require "rake/clean"
-require 'rake/testtask'
 
 CLEAN.include ["thamble-*.gem", "rdoc", "coverage"]
 
@@ -12,13 +11,11 @@ end
 ### Specs
 
 desc "Run specs"
-Rake::TestTask.new do |t|
-  t.libs.push "lib"
-  t.test_files = FileList['spec/*_spec.rb']
-  t.verbose = true
+task :spec do
+  sh "#{FileUtils::RUBY} -rubygems -I lib spec/thamble_spec.rb"
 end
 
-task :default=>:test
+task :default => :spec
 
 ### RDoc
 
