@@ -1,3 +1,5 @@
+# frozen-string-literal: true
+
 require 'rack/utils'
 
 # Thamble exposes a single method named table to make it easy to generate
@@ -61,7 +63,7 @@ module Thamble
       td_attr = @opts[:td]
 
       t = tag('table', empty, @opts[:table])
-      s = t.open
+      s = t.open.dup
       s << nl
 
       if caption = @opts[:caption]

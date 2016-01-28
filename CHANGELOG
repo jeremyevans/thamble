@@ -1,3 +1,7 @@
+=== HEAD
+
+* Add support for running with --enable-frozen-string-literal on ruby 2.3 (jeremyevans)
+
 === 1.0.1 (2015-01-27)
 
 * Fix homepage in gemspec (jeremyevans) (#1)
