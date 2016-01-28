@@ -16,4 +16,5 @@ Thamble exposes a single method, table, for easily creating HTML
 tables from enumerable objects.
 END
   s.add_dependency('rack')
+  s.add_development_dependency('minitest')
 end
