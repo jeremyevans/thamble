@@ -16,4 +16,5 @@ tables from enumerable objects.
 END
   s.add_dependency('rack')
   s.add_development_dependency('minitest')
+  s.add_development_dependency "minitest-global_expectations"
 end

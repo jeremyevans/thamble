@@ -1,7 +1,7 @@
 require 'rubygems'
 require File.join(File.dirname(File.expand_path(__FILE__)), '../lib/thamble')
 ENV['MT_NO_PLUGINS'] = '1' # Work around stupid autoloading of plugins
-require 'minitest/autorun'
+require 'minitest/global_expectations/autorun'
 
 describe "Thamble.table" do
   def table(*a, &block)
