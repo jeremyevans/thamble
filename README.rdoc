@@ -5,7 +5,7 @@ tables from enumerable objects.
 
 = Installation
 
-  sudo gem install thamble
+  gem install thamble
 
 = Source Code
 
@@ -71,6 +71,7 @@ You can use the :headers option to set custom headers:
 Other options supported are:
 
 :caption :: A caption for the table
+:column_th :: Use th instead of td for first cell in each row
 :table :: HTML attribute hash for the table itself
 :td :: HTML attribute hash for the table data cells, can be a proc called
        with the data value, row position, and row that returns a hash

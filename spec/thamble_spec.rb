@@ -12,6 +12,10 @@ describe "Thamble.table" do
     table([[1, 2]]).must_equal '<table><tbody><tr><td>1</td><td>2</td></tr></tbody></table>'
   end
 
+  it 'should :support :column_th option for first column being th' do
+    table([[1, 2]], :column_th=>true).must_equal '<table><tbody><tr><th>1</th><td>2</td></tr></tbody></table>'
+  end
+
   it 'should support :headers option for the headers' do
     table([[1, 2]], :headers=>%w'a b').must_equal '<table><thead><tr><th>a</th><th>b</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr></tbody></table>'
   end

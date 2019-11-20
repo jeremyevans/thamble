@@ -13,9 +13,11 @@ module Thamble
   #
   # Options:
   #
+  # :caption :: A caption for the table
+  # :column_th :: Use th instead of td for the first cell in each row in the
+  #               body.
   # :headers :: The headers to use for the table, as an array of strings or a
   #             single string using commas as the separtor.
-  # :caption :: A caption for the table
   # :table :: HTML attribute hash for the table itself
   # :td :: HTML attribute hash for the table data cells, can be a proc called
   #        with the data value, row position, and row that returns a hash
@@ -59,6 +61,7 @@ module Thamble
       tr_attr = @opts[:tr]
       th_attr = @opts[:th]
       td_attr = @opts[:td]
+      col_th = @opts[:column_th]
 
       t = tag('table', empty, @opts[:table])
       s = t.open.dup
@@ -95,7 +98,7 @@ module Thamble
         s << trh.open
         s << nl
         row.each_with_index do |col, i|
-          s << tag(td, col, handle_proc(td_attr, col, i, row)).to_s
+          s << tag((col_th && i == 0 ? th : td), col, handle_proc(td_attr, col, i, row)).to_s
         end
         s << trh.close
       end

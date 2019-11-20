@@ -1,5 +1,7 @@
 === master
 
+* Support :column_th option for using th instead of td for first cell in each row (jeremyevans)
+
 * Use cgi/escape if available for faster escaping (jeremyevans)
 
 === 1.0.2 (2016-01-28)
