@@ -1,4 +1,4 @@
-=== master
+=== 1.1.0 (2019-11-20)
 
 * Support :column_th option for using th instead of td for first cell in each row (jeremyevans)
 
