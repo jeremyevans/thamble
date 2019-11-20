@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require 'rack/utils'
-
 # Thamble exposes a single method named table to make it easy to generate
 # an HTML table from an enumerable.
 module Thamble
@@ -194,6 +192,22 @@ module Thamble
       @attr.map{|k,v| "#{k}=\"#{h v}\""}.sort.join(' ')
     end
     
+    begin
+      require 'cgi/escape'
+      unless CGI.respond_to?(:escapeHTML) # work around for JRuby 9.1
+        CGI = Object.new
+        CGI.extend(defined?(::CGI::Escape) ? ::CGI::Escape : ::CGI::Util)
+      end
+      def escape_html(value)
+        CGI.escapeHTML(value.to_s)
+      end
+    rescue LoadError
+      require 'rack/utils'
+      def escape_html(value)
+        Rack::Utils.escape_html(value.to_s)
+      end
+    end
+
     # A HTML-escaped version of the given argument.
     def h(s)
       case s
@@ -202,7 +216,7 @@ module Thamble
       when Tag
         s.to_s
       else
-        Rack::Utils.escape_html(s.to_s)
+        escape_html(s)
       end
     end
   end
