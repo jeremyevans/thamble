@@ -22,7 +22,6 @@ task :default => :spec
 RDOC_DEFAULT_OPTS = ["--quiet", "--line-numbers", "--inline-source", '--title', 'Thamble: Create HTML Tables from Enumerables']
 
 begin
-  gem 'rdoc', '= 3.12.2'
   gem 'hanna-nouveau'
   RDOC_DEFAULT_OPTS.concat(['-f', 'hanna'])
 rescue Gem::LoadError
