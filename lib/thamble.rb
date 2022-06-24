@@ -36,6 +36,12 @@ module Thamble
   end
   module_function :table
 
+  # Return a raw string, which will not be HTML escaped in Thamble's output.
+  def raw(s)
+    RawString.new(s)
+  end
+  module_function :raw
+
   # The Table class stores the rows and attributes to use for the HTML tags,
   # and contains helper methods for common formatting.
   class Table
