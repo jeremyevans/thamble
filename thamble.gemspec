@@ -15,5 +15,6 @@ Thamble exposes a single method, table, for easily creating HTML
 tables from enumerable objects.
 END
   s.add_development_dependency('minitest')
+  s.required_ruby_version = ">= 1.9.2"
   s.add_development_dependency "minitest-global_expectations"
 end
