@@ -1,5 +1,16 @@
-require 'rubygems'
-require File.join(File.dirname(File.expand_path(__FILE__)), '../lib/thamble')
+if ENV.delete('COVERAGE')
+  require 'simplecov'
+
+  SimpleCov.start do
+    enable_coverage :branch
+    add_filter "/spec/"
+    add_group('Missing'){|src| src.covered_percent < 100}
+    add_group('Covered'){|src| src.covered_percent == 100}
+  end
+end
+
+require_relative '../lib/thamble'
+gem 'minitest'
 ENV['MT_NO_PLUGINS'] = '1' # Work around stupid autoloading of plugins
 require 'minitest/global_expectations/autorun'
 
@@ -10,6 +21,22 @@ describe "Thamble.table" do
 
   it 'should return string with HTML table for enumerable' do
     table([[1, 2]]).must_equal '<table><tbody><tr><td>1</td><td>2</td></tr></tbody></table>'
+  end
+
+  it 'should HTML escape strings' do
+    table([['&', '<']]).must_equal '<table><tbody><tr><td>&amp;</td><td>&lt;</td></tr></tbody></table>'
+  end
+
+  it 'should not HTML escape raw strings' do
+    table([[Thamble.raw('&'), Thamble::RawString.new('<')]]).must_equal '<table><tbody><tr><td>&</td><td><</td></tr></tbody></table>'
+    s = String.new('&')
+    s.extend(Thamble::Raw)
+    table([[s, Thamble.raw('<')]]).must_equal '<table><tbody><tr><td>&</td><td><</td></tr></tbody></table>'
+    table([['&', '<']]){|row, t| row.map{|c| t.raw(c)}}.must_equal '<table><tbody><tr><td>&</td><td><</td></tr></tbody></table>'
+  end
+
+  it 'should handle row values that are Thamable tags' do
+    table([[1, 2]]){|row, t| row.map{|c| t.tag('td', c)} }.must_equal '<table><tbody><tr><td>1</td><td>2</td></tr></tbody></table>'
   end
 
   it 'should :support :column_th option for first column being th' do
@@ -78,5 +105,22 @@ describe "Thamble.table" do
 
   it 'should be callable as a method if including the module' do
     Class.new{include Thamble}.new.send(:table, [[1, 2]]).gsub(/\s+\n/m, '').gsub("\n", '').must_equal '<table><tbody><tr><td>1</td><td>2</td></tr></tbody></table>'
+  end
+
+  begin
+    require_relative '../lib/thamble/rails'
+  rescue LoadError => e
+    $stderr.puts "Unable to test Rails integration: #{e.class}: #{e.message}"
+  else
+    it 'should escape strings that are not safe buffers, and return safe strings' do
+      extend Thamble::RailsHelper
+      s = thamble([['&', '<']])
+      s.html_safe?.must_equal true
+      s.gsub(/\s+/, '').must_equal '<table><tbody><tr><td>&amp;</td><td>&lt;</td></tr></tbody></table>'
+
+      s = thamble([['&', '<']]){|row| row.map(&:html_safe)}
+      s.html_safe?.must_equal true
+      s.gsub(/\s+/, '').must_equal '<table><tbody><tr><td>&</td><td><</td></tr></tbody></table>'
+    end
   end
 end
