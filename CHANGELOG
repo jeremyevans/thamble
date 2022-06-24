@@ -1,3 +1,11 @@
+=== master
+
+* Make thamble/rails work with modern versions of Rails (jeremyevans)
+
+* Make fallback HTML escaping code use cgi instead of rack (jeremyevans)
+
+* Add Thamble.raw for simpler creation of raw strings (jeremyevans)
+
 === 1.1.0 (2019-11-20)
 
 * Support :column_th option for using th instead of td for first cell in each row (jeremyevans)
