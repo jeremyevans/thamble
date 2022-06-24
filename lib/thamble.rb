@@ -203,18 +203,20 @@ module Thamble
     
     begin
       require 'cgi/escape'
+    rescue LoadError
+      # :nocov:
+      # Handle old Ruby versions not supporting cgi/escape
+      require 'cgi'
+    else
       unless CGI.respond_to?(:escapeHTML) # work around for JRuby 9.1
         CGI = Object.new
         CGI.extend(defined?(::CGI::Escape) ? ::CGI::Escape : ::CGI::Util)
       end
-      def escape_html(value)
-        CGI.escapeHTML(value.to_s)
-      end
-    rescue LoadError
-      require 'rack/utils'
-      def escape_html(value)
-        Rack::Utils.escape_html(value.to_s)
-      end
+      # :nocov:
+    end
+
+    def escape_html(value)
+      CGI.escapeHTML(value.to_s)
     end
 
     # A HTML-escaped version of the given argument.
