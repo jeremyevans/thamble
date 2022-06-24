@@ -1,72 +1,77 @@
 = Thamble
 
-Thamble exposes a single method, table, for easily creating HTML
-tables from enumerable objects.
+Thamble creates HTML tables from enumerable objects.
 
-= Installation
+== Installation
 
   gem install thamble
 
-= Source Code
+== Source Code
 
 Source code is available on GitHub at https://github.com/jeremyevans/thamble
 
-= Examples
+== Examples
 
-The default behavior just expects an enumerable of arrays (such as an array of
-arrays), and returns a string containing the HTML TABLE output:
+The Thamble.table method expects an enumerable of arrays (such as an array of
+arrays), and returns a string containing the HTML table output:
 
   puts Thamble.table([[1, 2]])
 
-    <table>
-    <tbody>
-    <tr>
-    <td>1</td>
-    <td>2</td>
-    </tr>
-    </tbody>
-    </table>
+output:
+
+  <table>
+  <tbody>
+  <tr>
+  <td>1</td>
+  <td>2</td>
+  </tr>
+  </tbody>
+  </table>
 
 If a block is passed to the method, all items in the enumerable are yielded to
 the block, and the block should return an array with the data to use in the table:
 
   puts Thamble.table([{:a=>1, :b=>2}, {:a=>3, :b=>4}]){|l| [l[:b], l[:a] + 10]}
 
-    <table>
-    <tbody>
-    <tr>
-    <td>2</td>
-    <td>11</td>
-    </tr>
-    <tr>
-    <td>4</td>
-    <td>13</td>
-    </tr>
-    </tbody>
-    </table>
+output:
+
+  <table>
+  <tbody>
+  <tr>
+  <td>2</td>
+  <td>11</td>
+  </tr>
+  <tr>
+  <td>4</td>
+  <td>13</td>
+  </tr>
+  </tbody>
+  </table>
 
 You can use the :headers option to set custom headers:
 
   puts Thamble.table([[1, 2], [3, 4]], :headers=>['A', 'B'])
 
-    <table>
-    <thead>
-    <tr>
-    <th>A</th>
-    <th>B</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-    <td>1</td>
-    <td>2</td>
-    </tr>
-    <tr>
-    <td>3</td>
-    <td>4</td>
-    </tr>
-    </tbody>
-    </table>
+output:
+
+  <table>
+  <thead>
+  <tr>
+  <th>A</th>
+  <th>B</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td>1</td>
+  <td>2</td>
+  </tr>
+  <tr>
+  <td>3</td>
+  <td>4</td>
+  </tr>
+  </tbody>
+  </table>
 
 Other options supported are:
 
@@ -81,7 +86,31 @@ Other options supported are:
        the row that returns a hash
 :widths :: Array of widths for each column
 
-= Rails Support
+== Escaping 
+
+By default, Thamble escapes all output.  You can use the Thamble.raw method
+to return a string marked as already being escaped.
+
+  puts Thamble.table([['&1234;', Thamble.raw('&1234;')]])
+
+output:
+
+  <table>
+  <tbody>
+  <tr>
+  <td>&amp;1234;</td>
+  <td>&1234;</td>
+  </tr>
+  </tbody>
+  </table>
+
+The raw method is also exposed on the second object yielded to Thamble.table:
+
+  puts Thamble.table([['1', '&1234;']]) do |row, table|
+    row.map{|value| table.raw(value )}
+  end
+
+== Rails Support
 
 Thamble comes with basic rails support via:
 
@@ -92,10 +121,10 @@ This allows you to use the following style in your templates:
 
   <%= thamble([[1, 2], [3, 4]], :headers=>['A', 'B']) %>
 
-= License
+== License
 
 MIT
 
-= Author
+== Author
 
 Jeremy Evans <code@jeremyevans.net>
