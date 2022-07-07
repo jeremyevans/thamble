@@ -25,5 +25,5 @@ END
   s.required_ruby_version = ">= 1.9.2"
   s.add_development_dependency 'minitest'
   s.add_development_dependency "minitest-global_expectations"
-  s.add_development_dependency "activesupport"
+  s.add_development_dependency "activesupport", '>= 4'
 end
