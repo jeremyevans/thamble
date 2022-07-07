@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |s|
   s.name = 'thamble'
-  s.version = '1.1.0'
+  s.version = '1.2.0'
   s.platform = Gem::Platform::RUBY
   s.extra_rdoc_files = ["README.rdoc", "CHANGELOG", "MIT-LICENSE"]
   s.rdoc_options += ["--quiet", "--line-numbers", "--inline-source", '--title', 'Thamble: Create HTML Tables from Enumerables', '--main', 'README.rdoc']
