@@ -204,7 +204,7 @@ module Thamble
     begin
       require 'cgi/escape'
     rescue LoadError
-      # :nocov:
+      # simplecov:disable
       # Handle old Ruby versions not supporting cgi/escape
       require 'cgi'
     else
@@ -212,7 +212,7 @@ module Thamble
         CGI = Object.new
         CGI.extend(defined?(::CGI::Escape) ? ::CGI::Escape : ::CGI::Util)
       end
-      # :nocov:
+      # simplecov:enable
     end
 
     def escape_html(value)
